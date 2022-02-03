@@ -3,6 +3,7 @@ import {Subscription} from 'rxjs';
 import {ProductsService} from '../../services/products.service';
 import {Products} from '../../models/products';
 import {environment} from '../../../environments/environment';
+import {CartService} from '../../services/cart.service';
 
 @Component({
   selector: 'app-products',
@@ -16,7 +17,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
   prefUrlImage = `${environment.prefUrlImage}`;
   prodSub: Subscription;
 
-  constructor(private prodService: ProductsService) { }
+  /* on injecte le service du panier */
+  constructor(private prodService: ProductsService,
+              private cartService: CartService) { }
 
   ngOnInit(): void {
     /* On récupère la souscription */
@@ -33,5 +36,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     /* On se désabonne de l'observable */
     this.prodSub.unsubscribe();
+  }
+
+  addToCart(product: Products): void {
+    /* on utilise le service "cart" pour utiliser la méthode d'ajout au panier */
+    this.cartService.addProductsToCart(product);
+  }
+
+  deleteToCart(product: Products): void {
+    /* on utilise le service "cart" pour utiliser la méthode de suppression du panier */
+    this.cartService.deleteFromCart(product);
   }
 }
