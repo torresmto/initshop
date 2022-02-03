@@ -30,7 +30,8 @@
               </div>
               <div class="d-flex align-items-center justify-content-between">
                 <h6 class="product-price">{{ product.price }}&nbsp;€</h6>
-                <button class="pro-btn" data-toggle="modal" [attr.data-target]="'#add-to-cart-' + product.idProduct">
+                <!-- Ajout de l'évènement "click" qui appellera la méthode "addToCart" -->
+                <button (click)="addToCart(product)" class="pro-btn" data-toggle="modal" [attr.data-target]="'#add-to-cart-' + product.idProduct">
                   <i class="icon-basket"></i>
                 </button>
               </div>

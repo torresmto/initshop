@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {CartService} from '../services/cart.service';
+import {Cart} from '../models/cart';
+import {Products} from '../models/products';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +9,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  /* on déclare les attributs de classe */
+  cart: Cart[] = [];
+  cartDatas;
 
-  constructor() { }
+  /* on injecte le service du panier */
+  constructor(private cartService: CartService) { }
 
   ngOnInit(): void {
+    /* on accède aux données du panier */
+    this.cart = this.cartService.cart;
+    /* on initialise les données du panier */
+    this.cartDatas = this.cartService.cartData;
   }
-
 }
