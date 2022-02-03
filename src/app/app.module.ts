@@ -17,6 +17,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
 
 /*On définit un Router*/
 import {RouterModule, Routes} from '@angular/router';
+import {HttpClientModule} from '@angular/common/http';
+import { ModalAddToCartComponent } from './shop/modal-add-to-cart/modal-add-to-cart.component';
+import { ModalQuickViewComponent } from './shop/modal-quick-view/modal-quick-view.component';
 
 /*On déclare une constante de type route*/
 const routes: Routes = [
@@ -47,11 +50,14 @@ const routes: Routes = [
     ProductsComponent,
     SingleProductComponent,
     CartComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ModalAddToCartComponent,
+    ModalQuickViewComponent
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
