@@ -9,10 +9,31 @@ import {Products} from '../models/products';
 export class CartService {
 
   /* Déclaration des attributs */
-  cart: Cart[] = [];
+  cart: Cart[];
   cartData = {lengthProducts: 0, cartTotal: 0};
 
-  constructor() { }
+  constructor() {
+    this.initCart();
+  }
+
+  initCart(): void {
+    /* on vérifie si localStorage existe */
+    if (typeof (localStorage) !== 'undefined') {
+      /* on teste s'il y a des données sur le navigateur de l'utilisateur */
+      /* Pour rappel "localStorage" nous retourne une chaîne de caractères */
+      /* on doit donc la transformer en tableau */
+      const cartNav = JSON.parse(localStorage.getItem('cart'));
+      /* on procède de la même manière pour voir s'il existe des données contenu dans le panier */
+      const cartDataNav = JSON.parse(localStorage.getItem('cartData'));
+      /* désormais on peut initialiser les données et tester s'il y a des données */
+      this.cart = cartNav ? cartNav : [];
+      this.cartData = cartDataNav ? cartDataNav : {lengthProducts: 0, cartTotal: 0};
+    } else {
+      /* Dans le cas où localStorage n'existe pas, on initialise le panier */
+      this.cart = [];
+      this.cartData = {lengthProducts: 0, cartTotal: 0};
+    }
+  }
 
   /**
    * Méthode permettant de mettre à jour les données du panier
@@ -23,7 +44,6 @@ export class CartService {
     let cartTotal = 0;
 
     /* on doit parcourir tout ce que contient notre panier */
-    // tslint:disable-next-line:no-shadowed-variable
     this.cart.forEach(element => {
       /* Pour chaque élément, on vérifie le nombre de fois qu'il est présent dans le panier et on stocke l'info */
       lengthProducts += element.quantity;
@@ -33,6 +53,16 @@ export class CartService {
     /* on met à jour les données */
     this.cartData.lengthProducts = lengthProducts;
     this.cartData.cartTotal = cartTotal;
+
+    /* on teste la compatibilité du navigateur avec "localStorage" */
+    if (typeof(localStorage) !== 'undefined') {
+      /* on peut stocker les données concernant le panier dans le navigateur de l'utilisateur */
+      /* localStorage ne prend en paramètre que des chaînes de caractères */
+      /* on va donc transformer notre tableau en objet JSON */
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+      /* on stocke également les données contenues dans le panier */
+      localStorage.setItem('cartData', JSON.stringify(this.cartData));
+    }
   }
 
   /**
@@ -67,10 +97,9 @@ export class CartService {
 
   deleteFromCart(deleteProduct: Products): void {
     /* on vérifie le position du produit dans le panier via son index */
-    // tslint:disable-next-line:no-shadowed-variable
     const indexProduct = this.cart.findIndex(element => element.product === deleteProduct);
-    /* on vérifie si la clé existe */
-    if (indexProduct) {
+    /* on vérifie que la fonction "findIndex" nous retourne "true" */
+    if (indexProduct !== -1) {
       /* on supprime le produit du panier s'il n'existe qu'une seule fois */
       /* on vérifie l'index du produit dans le panier et on vérifie son attribut "quantity" */
       if (this.cart[indexProduct].quantity > 1) {

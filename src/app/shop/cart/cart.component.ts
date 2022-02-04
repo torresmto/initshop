@@ -38,5 +38,4 @@ export class CartComponent implements OnInit {
   deleteProduct(product: Products): void {
     this.cartService.deleteFromCart(product);
   }
-
 }
