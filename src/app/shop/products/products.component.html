@@ -6,7 +6,8 @@
           <div class="card-body">
             <div class="product-thumbnail position-relative">
               <span class="badge badge-danger top-right">New</span>
-              <a>
+              <!-- On utilise la propriété binding "routerLink" -->
+              <a [routerLink]="['/single-product', product.idProduct]">
                 <img class="first-img" width="420" [src]="prefUrlImage + product.image" alt="thumbnail">
               </a>
               <!-- product links -->

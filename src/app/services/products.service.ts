@@ -49,4 +49,21 @@ export class ProductsService {
     );
   }
 
+  /**
+   * Méthode permettant de retourner un produit via son id
+   * @param idProduct Products
+   */
+  getProductById(idProduct: number): Products {
+    /* on parcoure tous les éléments et on cherche l'élément qui a l'id */
+    /* que l'on a reçu en paramètre. On stocke le résultat dans "product" */
+    const product = this.products.find(element => element.idProduct === idProduct);
+    /* on teste si l'élément existe */
+    if (product) {
+      /* on retourne l'élément */
+      return product;
+    }
+    /* sinon, on ne retourne rien */
+    return null;
+  }
+
 }
