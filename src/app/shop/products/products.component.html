@@ -1,4 +1,20 @@
 <div class="tab-content container" id="pills-tabContent">
+  <!-- Pagination -->
+  <nav aria-label="Page navigation ecommerce">
+    <ul class="pagination">
+      <li class="page-item" (click)="prevPage()">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item" *ngFor="let page of pages" [ngClass]="{'active': page == currentPage}" (click)="changePage(page)"><a class="page-link" href="#">{{ page + 1 }}</a></li>
+      <li class="page-item" (click)="nextPage()">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
   <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
     <div class="row grid-view theme1">
       <div class="col-sm-6 col-md-4 mb-30" *ngFor="let product of products">

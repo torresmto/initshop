@@ -13,6 +13,8 @@ export class ProductsService {
   products: Products[] = [];
   /* Déclaration de l'Observable typé tableau de produits */
   prodSubject = new Subject<Products[]>();
+  /* Déclaration du nombre de produits par page */
+  numberOfProductByPage = 9;
 
   constructor(private http: HttpClient) {
     /* A chaque fois que l'on appelle le service, il faut MAJ les données */
@@ -63,6 +65,26 @@ export class ProductsService {
       return product;
     }
     /* sinon, on ne retourne rien */
+    return null;
+  }
+
+  /**
+   * Méthode permettant de nous retourner les produits par page
+   * correspondant au numéro de page
+   * @param numberPage Products[]
+   */
+  getProductsByPage(numberPage: number): Products[] {
+    /* on stocke le nombre de produits que l'on a récupéré / par le nombre de produits à afficher par page */
+    const nbTotalPages = this.products.length / this.numberOfProductByPage;
+    /* on teste si le nombre de page est > 0 et s'il est < au nombre de page total que l'on peut avoir */
+    /* pour connaître le nombre maxi de pages, on prend le nombre de produits divisé par le nombre de produits par page */
+    if (numberPage > 0 || numberPage < nbTotalPages) {
+      /* on recherche dans notre tableau de produits, la portion du tableau contenant les produits  */
+      /* on utilise la méthode "slice" qui prend en paramètre l'indice de début et de fin */
+      let prodResult: Products[];
+      prodResult = this.products.slice(numberPage * this.numberOfProductByPage, (numberPage + 1) * this.numberOfProductByPage);
+      return prodResult;
+    }
     return null;
   }
 
